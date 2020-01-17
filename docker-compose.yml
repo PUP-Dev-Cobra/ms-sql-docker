@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    networks:
+      dbLink:
+    environment: 
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: ${MS_SQL_PASSWORD}
+      MSSQL_PID: 'Express'
+    ports:
+      - "1443:1443"
+
+  adminer:
+    build:
+      context: '.'
+      dockerfile: './.docker/Dockerfile'
+    networks:
+      dbLink:
+    restart: always
+    ports:
+      - "8081:8080"
+
+networks: 
+  dbLink:
